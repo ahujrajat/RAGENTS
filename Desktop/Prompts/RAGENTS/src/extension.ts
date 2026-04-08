@@ -121,10 +121,10 @@ export function activate(context: vscode.ExtensionContext) {
 
             if (stat.isDirectory()) {
                 if (platformId === 'claudeCode') {
-                    // Flatten skill directory: read SKILL.md, save as {name}.md
+                    // Bundle skill directory: SKILL.md + all companion files into single .md
                     const skillMdPath = path.join(item.resourcePath, 'SKILL.md');
                     if (fs.existsSync(skillMdPath)) {
-                        const content = fs.readFileSync(skillMdPath, 'utf8');
+                        const content = bundleSkillDirectory(item.resourcePath);
                         const flatFileName = originalFileName + '.md';
                         const flatDestPath = path.join(targetDir, flatFileName);
 
