@@ -304,4 +304,50 @@ function getLanguageTag(filePath: string): string {
     return langMap[ext] || 'text';
 }
 
+function bundleSkillDirectory(dirPath: string): string {
+    const skillMdPath = path.join(dirPath, 'SKILL.md');
+    if (!fs.existsSync(skillMdPath)) {
+        return '';
+    }
+
+    let bundle = fs.readFileSync(skillMdPath, 'utf8');
+
+    const excludedFiles = new Set(['SKILL.md', '.DS_Store', 'CREATION-LOG.md']);
+
+    function collectFiles(dir: string, basePath: string): string[] {
+        const results: string[] = [];
+        const entries = fs.readdirSync(dir, { withFileTypes: true });
+        for (const entry of entries) {
+            const fullPath = path.join(dir, entry.name);
+            const relativePath = path.relative(basePath, fullPath);
+            if (entry.isDirectory()) {
+                results.push(...collectFiles(fullPath, basePath));
+            } else if (!excludedFiles.has(entry.name)) {
+                results.push(relativePath);
+            }
+        }
+        return results;
+    }
+
+    const companionFiles = collectFiles(dirPath, dirPath).sort();
+
+    for (const relPath of companionFiles) {
+        const fullPath = path.join(dirPath, relPath);
+        const content = fs.readFileSync(fullPath, 'utf8');
+        const isMd = relPath.endsWith('.md');
+
+        bundle += '\n\n---\n\n';
+        bundle += `## Companion: ${relPath}\n\n`;
+
+        if (isMd) {
+            bundle += content;
+        } else {
+            const lang = getLanguageTag(fullPath);
+            bundle += '```' + lang + '\n' + content + '\n```';
+        }
+    }
+
+    return bundle;
+}
+
 export function deactivate() { }
