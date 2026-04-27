@@ -1,0 +1,446 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+
+:root {
+    --bg-deep: #FFFFFF;
+    --bg-surface: #F8F6FC;
+    --bg-elevated: #F0ECF7;
+    --bg-card: rgba(240, 236, 247, 0.6);
+    --text-primary: #000000;
+    --text-secondary: #4A4A5A;
+    --text-muted: #8A8A9A;
+    --acn-purple: #A100FF;
+    --acn-purple-dim: rgba(161, 0, 255, 0.08);
+    --acn-purple-glow: rgba(161, 0, 255, 0.15);
+    --acn-purple-light: #7B00C0;
+    --acn-purple-soft: #E8D4FF;
+    --acn-blue: #0070AD;
+    --acn-blue-dim: rgba(0, 112, 173, 0.08);
+    --acn-green: #26890D;
+    --acn-green-dim: rgba(38, 137, 13, 0.08);
+    --border-subtle: rgba(0, 0, 0, 0.06);
+    --border-card: rgba(161, 0, 255, 0.15);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.presentation-container {
+    width: 96vw;
+    height: 90vh;
+    position: relative;
+}
+
+/* ---- SLIDES ---- */
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 2.5rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: linear-gradient(160deg, #FFFFFF 0%, var(--bg-surface) 100%);
+    border-radius: 1.25rem;
+    box-shadow: 0 4px 32px rgba(161, 0, 255, 0.06), 0 2px 12px rgba(0, 0, 0, 0.04);
+    overflow-y: auto;
+    overflow-x: hidden;
+    transform: translateX(60px) scale(0.98);
+    border: 1px solid var(--border-subtle);
+}
+
+.slide.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0) scale(1);
+    z-index: 10;
+}
+
+/* Subtle purple accent in corner */
+.slide::before {
+    content: '';
+    position: absolute;
+    top: -150px;
+    right: -150px;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: var(--acn-purple);
+    filter: blur(180px);
+    opacity: 0.06;
+    pointer-events: none;
+}
+
+/* ---- TYPOGRAPHY ---- */
+h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 4.5rem;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--acn-purple) 0%, var(--acn-purple-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    margin-top: 0;
+    padding-bottom: 0.6rem;
+    border-bottom: 3px solid var(--acn-purple);
+    display: inline-block;
+    position: relative;
+}
+
+h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    margin-top: 0.6rem;
+    letter-spacing: -0.01em;
+}
+
+p {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* ---- STATS GRID ---- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    margin-top: 1rem;
+}
+
+.stat-card {
+    background: var(--bg-deep);
+    padding: 1.5rem 1.8rem;
+    border-radius: 1rem;
+    border: 1px solid var(--border-subtle);
+    border-left: 4px solid var(--acn-purple);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(161, 0, 255, 0.08);
+    border-color: var(--border-card);
+}
+
+.stat-number {
+    font-family: 'Outfit', sans-serif;
+    font-size: 3.2rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    color: var(--acn-purple);
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    font-weight: 700;
+    margin-top: 0.3rem;
+}
+
+/* ---- FEATURE LIST ---- */
+.feature-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.feature-item {
+    background: var(--bg-deep);
+    padding: 1rem 1.2rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-subtle);
+    transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+    border-color: var(--border-card);
+    box-shadow: 0 4px 20px rgba(161, 0, 255, 0.06);
+}
+
+.feature-icon {
+    color: var(--acn-purple);
+    margin-right: 0.5rem;
+}
+
+/* ---- TAGS ---- */
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+}
+
+.tag {
+    background: var(--acn-purple-dim);
+    color: var(--acn-purple);
+    padding: 0.25rem 0.75rem;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid rgba(161, 0, 255, 0.1);
+    transition: all 0.2s ease;
+}
+
+.tag:hover {
+    border-color: rgba(161, 0, 255, 0.25);
+    background: rgba(161, 0, 255, 0.12);
+}
+
+.role-tag {
+    background: var(--acn-blue-dim);
+    color: var(--acn-blue);
+    border-color: rgba(0, 112, 173, 0.1);
+}
+
+.role-tag:hover {
+    border-color: rgba(0, 112, 173, 0.25);
+    background: rgba(0, 112, 173, 0.12);
+}
+
+.tech-tag {
+    background: var(--acn-green-dim);
+    color: var(--acn-green);
+    border-color: rgba(38, 137, 13, 0.1);
+}
+
+.tech-tag:hover {
+    border-color: rgba(38, 137, 13, 0.25);
+    background: rgba(38, 137, 13, 0.12);
+}
+
+.feature-tag {
+    background: rgba(161, 0, 255, 0.05);
+    color: var(--acn-purple-light);
+    border-color: rgba(161, 0, 255, 0.08);
+}
+
+/* ---- NAVIGATION ---- */
+.navigation {
+    position: absolute;
+    bottom: 20px;
+    right: 36px;
+    z-index: 20;
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.slide-counter {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-right: 0.5rem;
+}
+
+.nav-btn {
+    background: var(--acn-purple);
+    border: none;
+    color: #ffffff;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 16px rgba(161, 0, 255, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(161, 0, 255, 0.35);
+    background: var(--acn-purple-light);
+}
+
+.nav-btn:active {
+    transform: translateY(0);
+}
+
+/* ---- STEP CARDS ---- */
+.step-card {
+    background: var(--bg-deep);
+    padding: 1.4rem 1.6rem;
+    margin-bottom: 0.8rem;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    border: 1px solid var(--border-subtle);
+    transition: all 0.3s ease;
+}
+
+.step-card:hover {
+    border-color: var(--border-card);
+    transform: translateX(4px);
+    box-shadow: 0 4px 20px rgba(161, 0, 255, 0.06);
+}
+
+.step-num {
+    background: var(--acn-purple);
+    color: #ffffff;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(161, 0, 255, 0.2);
+}
+
+code {
+    background: var(--acn-purple-dim);
+    padding: 0.15rem 0.5rem;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', 'SF Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--acn-purple);
+    border: 1px solid rgba(161, 0, 255, 0.1);
+}
+
+/* ---- CHART ---- */
+.chart-container {
+    width: 600px;
+    margin: 1rem auto 0;
+}
+
+/* ---- SCROLLBAR ---- */
+.slide::-webkit-scrollbar {
+    width: 6px;
+}
+
+.slide::-webkit-scrollbar-track {
+    background: rgba(161, 0, 255, 0.04);
+    border-radius: 10px;
+}
+
+.slide::-webkit-scrollbar-thumb {
+    background: var(--acn-purple);
+    border-radius: 10px;
+    opacity: 0.6;
+}
+
+.slide::-webkit-scrollbar-thumb:hover {
+    background: var(--acn-purple-light);
+}
+
+/* ---- CATALOG GRID ---- */
+.catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
+    font-size: 0.85rem;
+}
+
+.catalog-section {
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    border-left: 3px solid var(--acn-purple);
+    background: var(--bg-deep);
+    border-top: 1px solid var(--border-subtle);
+    border-right: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.catalog-section h3 {
+    font-size: 0.95rem;
+    margin: 0 0 0.4rem 0;
+    color: var(--acn-purple);
+}
+
+.catalog-section .sub-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-bottom: 0.3rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.catalog-section .tag {
+    font-size: 0.6rem;
+    padding: 0.12rem 0.4rem;
+}
+
+/* ---- ACCENTURE BRANDING BAR ---- */
+.acn-bar {
+    position: absolute;
+    bottom: 20px;
+    left: 36px;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.acn-bar .acn-logo-text {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+}
+
+.acn-bar .acn-gt {
+    color: var(--acn-purple);
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 900px) {
+    .slide { padding: 1.5rem; }
+    h1 { font-size: 3rem; }
+    h2 { font-size: 1.8rem; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .feature-list { grid-template-columns: 1fr; }
+    .catalog-grid { grid-template-columns: 1fr 1fr; }
+}

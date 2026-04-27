@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexura AI — Intelligence That Moves With You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0a0a0f;
+            --bg-surface: #12121a;
+            --bg-elevated: #1a1a26;
+            --text-primary: #f0f0f5;
+            --text-secondary: #8a8a9a;
+            --text-muted: #55556a;
+            --accent-teal: #00F0D4;
+            --accent-teal-dim: rgba(0, 240, 212, 0.15);
+            --accent-amber: #FFB800;
+            --accent-amber-dim: rgba(255, 184, 0, 0.12);
+            --gradient-hero: linear-gradient(135deg, #0a0a0f 0%, #0f1a2a 40%, #0a1520 70%, #0a0a0f 100%);
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ---- NOISE OVERLAY ---- */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            background-size: 256px;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.5;
+        }
+
+        /* ---- NAV ---- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.5rem 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(20px);
+            background: rgba(10, 10, 15, 0.7);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.4s ease;
+        }
+
+        .nav-logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.4rem;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .nav-logo span {
+            color: var(--accent-teal);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-cta {
+            background: var(--accent-teal);
+            color: var(--bg-deep) !important;
+            padding: 0.6rem 1.5rem;
+            border-radius: 100px;
+            font-weight: 700 !important;
+            font-size: 0.825rem !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 0 30px rgba(0, 240, 212, 0.2);
+        }
+
+        .nav-cta:hover {
+            box-shadow: 0 0 50px rgba(0, 240, 212, 0.4);
+            transform: translateY(-1px);
+        }
+
+        /* ---- HERO ---- */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-hero);
+            overflow: hidden;
+            padding: 8rem 3rem 6rem;
+        }
+
+        .hero-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.3;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .hero-glow.teal {
+            background: var(--accent-teal);
+            top: 10%;
+            right: 15%;
+            animation-delay: 0s;
+        }
+
+        .hero-glow.amber {
+            background: var(--accent-amber);
+            bottom: 5%;
+            left: 10%;
+            width: 400px;
+            height: 400px;
+            opacity: 0.15;
+            animation-delay: -4s;
+        }
+
+        .hero-glow.purple {
+            background: #6C3AED;
+            top: 40%;
+            left: 30%;
+            width: 500px;
+            height: 500px;
+            opacity: 0.1;
+            animation-delay: -2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -40px) scale(1.05); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
+        }
+
+        /* Geometric orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 240, 212, 0.15);
+            backdrop-filter: blur(4px);
+            background: rgba(0, 240, 212, 0.03);
+        }
+
+        .orb-1 { width: 180px; height: 180px; top: 15%; right: 8%; animation: orb-drift 12s ease-in-out infinite; }
+        .orb-2 { width: 120px; height: 120px; bottom: 20%; left: 5%; animation: orb-drift 10s ease-in-out infinite reverse; border-color: rgba(255, 184, 0, 0.12); background: rgba(255, 184, 0, 0.02); }
+        .orb-3 { width: 80px; height: 80px; top: 35%; left: 12%; animation: orb-drift 14s ease-in-out infinite; animation-delay: -3s; }
+
+        @keyframes orb-drift {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(180deg); }
+        }
+
+        /* Grid lines */
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0, 240, 212, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 212, 0.03) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 900px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.45rem 1.2rem;
+            border-radius: 100px;
+            background: var(--accent-teal-dim);
+            border: 1px solid rgba(0, 240, 212, 0.2);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-teal);
+            letter-spacing: 0.04em;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: reveal 0.8s ease forwards;
+            animation-delay: 0.2s;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-teal);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.5); }
+        }
+
+        .hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: reveal 0.8s ease forwards;
+            animation-delay: 0.4s;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-amber));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.7;
+            opacity: 0;
+            animation: reveal 0.8s ease forwards;
+            animation-delay: 0.6s;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: reveal 0.8s ease forwards;
+            animation-delay: 0.8s;
+        }
+
+        @keyframes reveal {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.9rem 2rem;
+            border-radius: 100px;
+            background: var(--accent-teal);
+            color: var(--bg-deep);
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 40px rgba(0, 240, 212, 0.25), inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 60px rgba(0, 240, 212, 0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.9rem 2rem;
+            border-radius: 100px;
+            background: transparent;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateY(-2px);
+        }
+
+        /* ---- LOGOS BAR ---- */
+        .logos-bar {
+            padding: 4rem 3rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            background: var(--bg-deep);
+        }
+
+        .logos-bar p {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .logos-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+            opacity: 0.35;
+        }
+
+        .logo-placeholder {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.02em;
+        }
+
+        /* ---- FEATURES ---- */
+        .features {
+            padding: 8rem 3rem;
+            background: var(--bg-surface);
+            position: relative;
+        }
+
+        .features::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: var(--accent-teal);
+            filter: blur(200px);
+            opacity: 0.04;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+            position: relative;
+        }
+
+        .section-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent-teal);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .section-header h2 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            max-width: 550px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--bg-elevated);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-teal), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(0, 240, 212, 0.15);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            background: var(--accent-teal-dim);
+            border: 1px solid rgba(0, 240, 212, 0.1);
+        }
+
+        .feature-card:nth-child(2) .feature-icon,
+        .feature-card:nth-child(5) .feature-icon {
+            background: var(--accent-amber-dim);
+            border-color: rgba(255, 184, 0, 0.1);
+        }
+
+        .feature-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.02em;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* ---- SHOWCASE ---- */
+        .showcase {
+            padding: 8rem 3rem;
+            background: var(--bg-deep);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .showcase-visual {
+            position: relative;
+            aspect-ratio: 4/3;
+            border-radius: 24px;
+            overflow: hidden;
+            background: var(--bg-surface);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .showcase-visual-inner {
+            position: absolute;
+            inset: 1.5rem;
+            border-radius: 16px;
+            background: linear-gradient(160deg, #0f1a2e, #0a1520);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            gap: 1rem;
+        }
+
+        .mock-bar {
+            display: flex;
+            gap: 6px;
+        }
+
+        .mock-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .mock-dot:nth-child(1) { background: #ff5f56; }
+        .mock-dot:nth-child(2) { background: #ffbd2e; }
+        .mock-dot:nth-child(3) { background: #27ca40; }
+
+        .mock-chart {
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            padding-top: 1rem;
+        }
+
+        .mock-bar-el {
+            flex: 1;
+            border-radius: 6px 6px 0 0;
+            background: linear-gradient(to top, rgba(0, 240, 212, 0.3), rgba(0, 240, 212, 0.8));
+            animation: bar-grow 2s ease-out forwards;
+            transform-origin: bottom;
+        }
+
+        .mock-bar-el:nth-child(odd) {
+            background: linear-gradient(to top, rgba(255, 184, 0, 0.2), rgba(255, 184, 0, 0.6));
+        }
+
+        @keyframes bar-grow {
+            from { transform: scaleY(0); }
+            to { transform: scaleY(1); }
+        }
+
+        .mock-bar-el:nth-child(1) { height: 45%; animation-delay: 0.1s; }
+        .mock-bar-el:nth-child(2) { height: 70%; animation-delay: 0.2s; }
+        .mock-bar-el:nth-child(3) { height: 55%; animation-delay: 0.3s; }
+        .mock-bar-el:nth-child(4) { height: 85%; animation-delay: 0.4s; }
+        .mock-bar-el:nth-child(5) { height: 60%; animation-delay: 0.5s; }
+        .mock-bar-el:nth-child(6) { height: 90%; animation-delay: 0.6s; }
+        .mock-bar-el:nth-child(7) { height: 75%; animation-delay: 0.7s; }
+        .mock-bar-el:nth-child(8) { height: 50%; animation-delay: 0.8s; }
+
+        .showcase-content h2 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .showcase-content p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .stat-row {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-value {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 2.2rem;
+            color: var(--accent-teal);
+            letter-spacing: -0.03em;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+        }
+
+        /* ---- TESTIMONIALS ---- */
+        .testimonials {
+            padding: 8rem 3rem;
+            background: var(--bg-surface);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: var(--bg-elevated);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2.5rem;
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '\201C';
+            font-family: 'Syne', sans-serif;
+            font-size: 4rem;
+            color: var(--accent-teal);
+            opacity: 0.2;
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            line-height: 1;
+        }
+
+        .testimonial-card blockquote {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-teal-dim), var(--accent-amber-dim));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: var(--accent-teal);
+            border: 1px solid rgba(0, 240, 212, 0.15);
+        }
+
+        .author-info strong {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .author-info span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* ---- PRICING ---- */
+        .pricing {
+            padding: 8rem 3rem;
+            background: var(--bg-deep);
+            position: relative;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            align-items: start;
+        }
+
+        .pricing-card {
+            background: var(--bg-elevated);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: rgba(0, 240, 212, 0.25);
+            background: linear-gradient(180deg, rgba(0, 240, 212, 0.05), var(--bg-elevated));
+            transform: scale(1.05);
+            box-shadow: 0 30px 80px rgba(0, 240, 212, 0.08);
+        }
+
+        .pricing-card.featured::before {
+            content: 'Most Popular';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-teal);
+            color: var(--bg-deep);
+            padding: 0.3rem 1rem;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .pricing-tier {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 3rem;
+            letter-spacing: -0.04em;
+            margin-bottom: 0.25rem;
+        }
+
+        .pricing-price span {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .pricing-desc {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features li {
+            padding: 0.6rem 0;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .pricing-features li::before {
+            content: '\2713';
+            color: var(--accent-teal);
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        .pricing-card .btn-primary {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .pricing-card:not(.featured) .btn-primary {
+            background: var(--bg-surface);
+            color: var(--text-primary);
+            box-shadow: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pricing-card:not(.featured) .btn-primary:hover {
+            border-color: var(--accent-teal);
+            color: var(--accent-teal);
+            box-shadow: 0 0 30px rgba(0, 240, 212, 0.1);
+        }
+
+        /* ---- CTA ---- */
+        .cta {
+            padding: 8rem 3rem;
+            background: var(--bg-surface);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 400px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-amber));
+            filter: blur(150px);
+            opacity: 0.06;
+        }
+
+        .cta h2 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            letter-spacing: -0.04em;
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .cta p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto 2.5rem;
+            position: relative;
+        }
+
+        .cta .btn-primary {
+            position: relative;
+            font-size: 1.05rem;
+            padding: 1rem 2.5rem;
+        }
+
+        /* ---- FOOTER ---- */
+        footer {
+            padding: 4rem 3rem 2rem;
+            background: var(--bg-deep);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            max-width: 1200px;
+            margin: 0 auto 4rem;
+        }
+
+        .footer-brand .nav-logo {
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            max-width: 280px;
+            line-height: 1.6;
+        }
+
+        .footer-col h4 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 0.6rem;
+        }
+
+        .footer-col a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-col a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* ---- SCROLL ANIMATIONS ---- */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ---- RESPONSIVE ---- */
+        @media (max-width: 900px) {
+            .features-grid, .testimonials-grid, .pricing-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+            .showcase-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+            .pricing-card.featured {
+                transform: none;
+            }
+            nav { padding: 1rem 1.5rem; }
+            .nav-links { display: none; }
+            .hero { padding: 7rem 1.5rem 4rem; }
+            .features, .showcase, .testimonials, .pricing, .cta { padding: 5rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <a href="#" class="nav-logo">nexura<span>.</span></a>
+        <ul class="nav-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#showcase">Platform</a></li>
+            <li><a href="#testimonials">Customers</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#cta" class="nav-cta">Get Started</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-glow teal"></div>
+        <div class="hero-glow amber"></div>
+        <div class="hero-glow purple"></div>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="hero-grid"></div>
+
+        <div class="hero-content">
+            <div class="hero-badge">Now in General Availability</div>
+            <h1>Intelligence that<br><span class="gradient-text">moves with you</span></h1>
+            <p>Nexura deploys adaptive AI agents that learn your workflows, anticipate bottlenecks, and orchestrate decisions across your entire operation in real time.</p>
+            <div class="hero-actions">
+                <a href="#" class="btn-primary">Start Free Trial &rarr;</a>
+                <a href="#" class="btn-secondary">Watch Demo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOGOS -->
+    <div class="logos-bar">
+        <p>Trusted by forward-thinking teams</p>
+        <div class="logos-row">
+            <span class="logo-placeholder">Meridian</span>
+            <span class="logo-placeholder">Arclight</span>
+            <span class="logo-placeholder">Vantage</span>
+            <span class="logo-placeholder">Helix Corp</span>
+            <span class="logo-placeholder">Stratos</span>
+            <span class="logo-placeholder">Foundry</span>
+        </div>
+    </div>
+
+    <!-- FEATURES -->
+    <section class="features" id="features">
+        <div class="section-header scroll-reveal">
+            <span class="section-tag">Capabilities</span>
+            <h2>Built for the next era<br>of enterprise intelligence</h2>
+            <p>Six core modules that transform how your organization thinks, decides, and acts.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card scroll-reveal">
+                <div class="feature-icon">&#9672;</div>
+                <h3>Adaptive Agents</h3>
+                <p>Self-improving AI agents that learn from every interaction, continuously refining their understanding of your unique processes and domain.</p>
+            </div>
+            <div class="feature-card scroll-reveal">
+                <div class="feature-icon">&#9733;</div>
+                <h3>Predictive Orchestration</h3>
+                <p>Anticipate workflow bottlenecks before they happen. Nexura models your operational patterns and proactively reroutes resources.</p>
+            </div>
+            <div class="feature-card scroll-reveal">
+                <div class="feature-icon">&#9881;</div>
+                <h3>Knowledge Fabric</h3>
+                <p>A living knowledge graph that connects every document, decision, and data point across your organization into a unified intelligence layer.</p>
+            </div>
+            <div class="feature-card scroll-reveal">
+                <div class="feature-icon">&#9670;</div>
+                <h3>Real-Time Reasoning</h3>
+                <p>Stream complex decisions through multi-step reasoning chains with full transparency. See exactly how conclusions are reached.</p>
+            </div>
+            <div class="feature-card scroll-reveal">
+                <div class="feature-icon">&#10038;</div>
+                <h3>Secure Enclaves</h3>
+                <p>Enterprise-grade isolation with zero-trust architecture. Your data never leaves your boundary. SOC 2 Type II and HIPAA compliant.</p>
+            </div>
+            <div class="feature-card scroll-reveal">
+                <div class="feature-icon">&#9883;</div>
+                <h3>Integration Mesh</h3>
+                <p>Connect to 200+ enterprise tools out of the box. Custom connectors deploy in minutes with our no-code integration builder.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SHOWCASE -->
+    <section class="showcase" id="showcase">
+        <div class="showcase-grid">
+            <div class="showcase-visual scroll-reveal">
+                <div class="showcase-visual-inner">
+                    <div class="mock-bar">
+                        <div class="mock-dot"></div>
+                        <div class="mock-dot"></div>
+                        <div class="mock-dot"></div>
+                    </div>
+                    <div class="mock-chart">
+                        <div class="mock-bar-el"></div>
+                        <div class="mock-bar-el"></div>
+                        <div class="mock-bar-el"></div>
+                        <div class="mock-bar-el"></div>
+                        <div class="mock-bar-el"></div>
+                        <div class="mock-bar-el"></div>
+                        <div class="mock-bar-el"></div>
+                        <div class="mock-bar-el"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="showcase-content scroll-reveal">
+                <span class="section-tag">Platform</span>
+                <h2>See the signal through the noise</h2>
+                <p>Our command center gives you a panoramic view of every AI agent, every decision chain, and every outcome — with drill-down precision when you need it.</p>
+                <div class="stat-row">
+                    <div class="stat">
+                        <span class="stat-value">40ms</span>
+                        <span class="stat-label">Avg Response</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">99.97%</span>
+                        <span class="stat-label">Uptime SLA</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">10M+</span>
+                        <span class="stat-label">Daily Decisions</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials" id="testimonials">
+        <div class="section-header scroll-reveal">
+            <span class="section-tag">Customers</span>
+            <h2>Loved by teams who<br>refuse to settle</h2>
+        </div>
+
+        <div class="testimonials-grid">
+            <div class="testimonial-card scroll-reveal">
+                <blockquote>"Nexura cut our decision-to-action cycle from days to minutes. Our operations team can't imagine going back."</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar">SK</div>
+                    <div class="author-info">
+                        <strong>Sarah Kim</strong>
+                        <span>VP Operations, Meridian</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card scroll-reveal">
+                <blockquote>"The adaptive agents actually get smarter over time. After three months, they were catching patterns our senior analysts missed."</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar">MR</div>
+                    <div class="author-info">
+                        <strong>Marcus Rivera</strong>
+                        <span>CTO, Arclight Systems</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card scroll-reveal">
+                <blockquote>"We evaluated nine AI platforms. Nexura was the only one that understood enterprise security isn't optional — it's table stakes."</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar">JT</div>
+                    <div class="author-info">
+                        <strong>James Torres</strong>
+                        <span>CISO, Helix Corp</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="pricing" id="pricing">
+        <div class="section-header scroll-reveal">
+            <span class="section-tag">Pricing</span>
+            <h2>Scale intelligence,<br>not invoices</h2>
+            <p>Start free. Upgrade when you're ready to deploy across your organization.</p>
+        </div>
+
+        <div class="pricing-grid">
+            <div class="pricing-card scroll-reveal">
+                <div class="pricing-tier">Starter</div>
+                <div class="pricing-price">$0<span>/mo</span></div>
+                <div class="pricing-desc">For teams exploring AI</div>
+                <ul class="pricing-features">
+                    <li>3 AI agents</li>
+                    <li>1,000 decisions/day</li>
+                    <li>Core integrations</li>
+                    <li>Community support</li>
+                </ul>
+                <a href="#" class="btn-primary">Get Started</a>
+            </div>
+            <div class="pricing-card featured scroll-reveal">
+                <div class="pricing-tier">Growth</div>
+                <div class="pricing-price">$299<span>/mo</span></div>
+                <div class="pricing-desc">For scaling operations</div>
+                <ul class="pricing-features">
+                    <li>25 AI agents</li>
+                    <li>100K decisions/day</li>
+                    <li>All integrations</li>
+                    <li>Knowledge Fabric</li>
+                    <li>Priority support</li>
+                </ul>
+                <a href="#" class="btn-primary">Start Free Trial</a>
+            </div>
+            <div class="pricing-card scroll-reveal">
+                <div class="pricing-tier">Enterprise</div>
+                <div class="pricing-price">Custom</div>
+                <div class="pricing-desc">For organization-wide AI</div>
+                <ul class="pricing-features">
+                    <li>Unlimited agents</li>
+                    <li>Unlimited decisions</li>
+                    <li>Secure enclaves</li>
+                    <li>Custom connectors</li>
+                    <li>Dedicated success team</li>
+                </ul>
+                <a href="#" class="btn-primary">Contact Sales</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta" id="cta">
+        <h2 class="scroll-reveal">Ready to outthink<br>the competition?</h2>
+        <p class="scroll-reveal">Join 2,000+ teams already using Nexura to make faster, smarter decisions at scale.</p>
+        <a href="#" class="btn-primary scroll-reveal">Start Building Free &rarr;</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#" class="nav-logo">nexura<span>.</span></a>
+                <p>Adaptive intelligence infrastructure for the enterprises that will define the next decade.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Integrations</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Changelog</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">API Reference</a></li>
+                    <li><a href="#">Security</a></li>
+                    <li><a href="#">Status</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Nexura AI. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Scroll reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    // Stagger siblings
+                    const siblings = entry.target.parentElement.querySelectorAll('.scroll-reveal');
+                    const idx = Array.from(siblings).indexOf(entry.target);
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, idx * 100);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+        // Navbar scroll effect
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            const scrollY = window.scrollY;
+            if (scrollY > 100) {
+                nav.style.background = 'rgba(10, 10, 15, 0.9)';
+                nav.style.borderBottomColor = 'rgba(255, 255, 255, 0.06)';
+            } else {
+                nav.style.background = 'rgba(10, 10, 15, 0.7)';
+                nav.style.borderBottomColor = 'rgba(255, 255, 255, 0.04)';
+            }
+            lastScroll = scrollY;
+        });
+    </script>
+
+</body>
+</html>

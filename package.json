@@ -1,0 +1,116 @@
+{
+    "name": "ragents",
+    "displayName": "RAGENTS",
+    "description": "Library of Agents, Prompts, Instructions and Skills for VS Code",
+    "version": "1.0.5",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/placeholder/ragents"
+    },
+    "publisher": "RajatAhuja",
+    "engines": {
+        "vscode": "^1.93.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [],
+    "main": "./out/extension.js",
+    "contributes": {
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "ragents-sidebar",
+                    "title": "RAGENTS",
+                    "icon": "resources/icon.svg"
+                }
+            ]
+        },
+        "views": {
+            "ragents-sidebar": [
+                {
+                    "id": "ragentsView",
+                    "name": "RAGENTS Library",
+                    "icon": "resources/icon.svg"
+                }
+            ]
+        },
+        "commands": [
+            {
+                "command": "ragents.preview",
+                "title": "Preview"
+            },
+            {
+                "command": "ragents.download",
+                "title": "Download",
+                "icon": "$(cloud-download)"
+            },
+            {
+                "command": "ragents.refresh",
+                "title": "Refresh",
+                "icon": "$(refresh)"
+            }
+        ],
+        "menus": {
+            "view/title": [
+                {
+                    "command": "ragents.refresh",
+                    "group": "navigation"
+                }
+            ],
+            "view/item/context": [
+                {
+                    "command": "ragents.download",
+                    "group": "inline"
+                }
+            ]
+        },
+        "configuration": {
+            "title": "RAGENTS",
+            "properties": {
+                "ragents.targetPlatform": {
+                    "type": "string",
+                    "enum": ["copilot", "claudeCode", "ask"],
+                    "default": "ask",
+                    "enumDescriptions": [
+                        "GitHub Copilot - saves to .github/",
+                        "Claude Code - saves to .claude/",
+                        "Ask each time"
+                    ],
+                    "description": "Target AI platform for downloaded assets"
+                }
+            }
+        },
+        "chatParticipants": [
+            {
+                "id": "ragents.skills",
+                "name": "ragents",
+                "fullName": "RAGENTS Skills",
+                "description": "Access downloaded AI skills from your workspace",
+                "isSticky": false,
+                "commands": [
+                    {
+                        "name": "list",
+                        "description": "List all available skills"
+                    },
+                    {
+                        "name": "use",
+                        "description": "Use a specific skill by name"
+                    }
+                ]
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "package": "vsce package"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.93.0",
+        "@types/node": "16.x",
+        "typescript": "^5.1.3",
+        "vsce": "^2.15.0"
+    }
+}
